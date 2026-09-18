@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: weather
+  datasource:
+    url: jdbc:postgresql://localhost:5432/weather_db
+    username: postgres
+    password: postgrespassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+    enabled: true
+  cache:
+    type: redis
+  threads:
+    virtual:
+      enabled: true
+
+app:
+  weather:
+    owm:
+      api-key: ${OWM_API_KEY:1d32276d5c638a76835f3047fe33546b}
+      base-url: https://api.openweathermap.org

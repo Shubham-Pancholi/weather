@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: weather-postgres
+    environment:
+      POSTGRES_DB: weather_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: weather_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  weather-backend:
+    image: weather:1.0
+    container_name: weather-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/weather_db
+      - SPRING_DATA_REDIS_HOST=redis
