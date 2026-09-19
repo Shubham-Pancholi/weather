@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Node / Frontend
+skypulse-ui/node_modules/
+skypulse-ui/dist/
+skypulse-ui/.env.local
