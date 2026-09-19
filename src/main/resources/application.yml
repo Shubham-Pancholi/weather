@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   application:
@@ -24,5 +24,9 @@ spring:
 app:
   weather:
     owm:
-      api-key: ${OWM_API_KEY:1d32276d5c638a76835f3047fe33546b}
+      api-key: ${OWM_API_KEY:}
       base-url: https://api.openweathermap.org
+
+jwt:
+  secret: ${JWT_SECRET:defaultFallbackSecretKeyHereThatIsLongEnough32Bytes}
+  expiration: ${JWT_EXPIRATION:86400000}

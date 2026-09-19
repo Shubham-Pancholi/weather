@@ -1,0 +1,18 @@
+-- 1. User table
+
+CREATE TABLE users (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Saved Address table
+
+CREATE TABLE saved_address (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id),
+    city VARCHAR(255),
+    lat DOUBLE PRECISION,
+    lon DOUBLE PRECISION
+);
