@@ -17,6 +17,9 @@ spring:
     enabled: true
   cache:
     type: redis
+    cache-names:
+    - invalid-tokens
+    - password-versions
   threads:
     virtual:
       enabled: true

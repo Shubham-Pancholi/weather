@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import com.spring.weather.config.JwtProperties;
@@ -20,13 +18,11 @@ public class JwtService {
     
     private final String secretKey;
     private final Long jwtExpiration;
-    private final CacheManager cacheManager;
 
     private final JwtProperties jwtProperties;
 
-    public JwtService(JwtProperties aJwtProperties, CacheManager aCacheManager) {
+    public JwtService(JwtProperties aJwtProperties) {
         jwtProperties = aJwtProperties;
-        cacheManager = aCacheManager;
         secretKey = jwtProperties.getSecret();
         jwtExpiration = jwtProperties.getExpiration();
     }
@@ -36,8 +32,9 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyByte);
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String email, Integer version) {
         return Jwts.builder()
+                   .claim("version", version)
                    .subject(email)
                    .issuedAt(new Date(System.currentTimeMillis()))
                    .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
@@ -56,18 +53,12 @@ public class JwtService {
         return extractClaims(token).getSubject();
     }
 
+    public Integer extractPasswordVersion(String token) {
+        return extractClaims(token).get("version", Integer.class);
+    }
+
     public boolean isTokenValid(String token, String userEmail) {
-        try {
-            Claims claims = extractClaims(token);
-            boolean emailMatches = userEmail.equals(claims.getSubject());
-            boolean notExpired = claims.getExpiration().after(new Date());
-
-            Cache cache = cacheManager.getCache("invalid-tokens");
-            boolean isNotInvalidated = (cache == null || cache.get(token) == null);
-
-            return emailMatches && notExpired && isNotInvalidated;
-        }   catch (Exception e) {
-            return false;
-        }
+        Claims claims = extractClaims(token);
+        return claims.getSubject().equals(userEmail) && claims.getExpiration().after(new Date());
     }
 }
