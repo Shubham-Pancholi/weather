@@ -1,0 +1,6 @@
+.git
+skypulse-ui
+target
+*.md
+.vscode
+docker-compose.yml

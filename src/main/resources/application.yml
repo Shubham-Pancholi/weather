@@ -29,6 +29,8 @@ app:
     owm:
       api-key: ${OWM_API_KEY:}
       base-url: https://api.openweathermap.org
+  cors:
+    allowed-origins: ""
 
 jwt:
   secret: ${JWT_SECRET:defaultFallbackSecretKeyHereThatIsLongEnough32Bytes}

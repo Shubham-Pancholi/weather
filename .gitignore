@@ -36,3 +36,8 @@ build/
 skypulse-ui/node_modules/
 skypulse-ui/dist/
 skypulse-ui/.env.local
+
+# Environment variables
+.env
+.env.*
+!.env.production
