@@ -1,6 +1,8 @@
 .git
 skypulse-ui
-target
+target/*
+!target/weather
+!target/*.jar
 *.md
 .vscode
 docker-compose.yml

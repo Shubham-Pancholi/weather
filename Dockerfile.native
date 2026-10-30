@@ -1,0 +1,6 @@
+FROM debian:bookworm-slim
+WORKDIR /app
+COPY target/weather /app/weather
+RUN chmod +x /app/weather
+EXPOSE 8081
+ENTRYPOINT ["/app/weather"]
